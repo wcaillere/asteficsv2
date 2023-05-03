@@ -1,7 +1,7 @@
+import dal.*;
+
 import java.util.*;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
 
@@ -43,12 +43,14 @@ public class Main {
         String[] choosenMsg = {"1. Afficher la liste des ", "2. Afficher ", "3. Créer ", "4. Modifier ",
                 "5. Supprimer ", "6. Menu", "7. Quitter l'application"};
 
-        HashMap<String, String> tables = new HashMap<>();
-        tables.put("formation", "formations");
-        tables.put("catégorie", "categories");
-        tables.put("formateur", "teachers");
-        tables.put("stagiaire", "students");
+        Map<String, IDal<?>> dalTb = new HashMap<>();
+        dalTb.put("formation", new DalFormation());
+        dalTb.put("catégorie", new DalCategory());
+        dalTb.put("formateur", new DalTeacher());
+        dalTb.put("stagiaire", new DalStudent());
 
+        // Choix du dal correspondant à l'entité choisie
+        IDal<?> dal = dalTb.get(chosenMenu);
 
         System.out.println("\n---- " + chosenMenu + " ----");
         // Si un espace était laissé à la fin du message, on rajoute le nom de l'onglet
