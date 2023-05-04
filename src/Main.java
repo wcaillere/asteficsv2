@@ -101,12 +101,17 @@ public class Main {
                 }
                 // Création d'un élément
                 case "3" -> {
-                    System.out.println("\nVeuillez remplir tous ces champs obligatoires");
+                    System.out.println("\nRemplissez tous ces champs obligatoires (Entrez '&' à tout moment pour sortir de la saisie)");
                     Class<?> clazz = classTb.get(chosenMenu);
                     try {
                         IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
                         IModel<?> verifiedInput = (IModel<?>) entity.verifyInput();
-                        dal.createOne(classTb.get(chosenMenu), verifiedInput);
+                        // Si verifiedInput est null, alors l'utilisateur est sorti de la saisie
+                        if (verifiedInput != null) {
+                            dal.createOne(classTb.get(chosenMenu), verifiedInput);
+                        } else {
+                            System.out.println("création annulée");
+                        }
                     } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
                              IllegalAccessException e) {
                         System.out.println("Erreur création élément : " + e.getMessage());

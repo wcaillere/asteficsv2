@@ -135,6 +135,7 @@ public class Formation implements IModel<Formation> {
         while (saisie.matches("^$")) {
             System.out.println("Nom : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setName(saisie);
 
@@ -142,6 +143,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
             System.out.println("Date de type (AAAA-MM-JJ) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         try {
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
@@ -155,6 +157,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-9]+")) {
             System.out.println("Nombre de jours : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setNbDays(Integer.parseInt(saisie));
 
@@ -162,6 +165,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-9]+[.]?[0-9]{0,2}")) {
             System.out.println("Prix (en euros) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setPrice(Float.parseFloat(saisie));
 
@@ -169,6 +173,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[1-3]")) {
             System.out.println("Id de la difficulté (1-basique, 2-intermédiaire, 3-difficile) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setLevel(new Level(Integer.parseInt(saisie)));
 
@@ -176,6 +181,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-1]")) {
             System.out.println("la formation est-elle en ligne ? (0-non, 1-oui) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setOnline(!saisie.equals("0"));
 
@@ -183,6 +189,7 @@ public class Formation implements IModel<Formation> {
         while (saisie.matches("^$")) {
             System.out.println("Programme : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setProgram(saisie);
 
@@ -190,6 +197,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-9]+") || new DaoCategory().getOne(saisie) == null) {
             System.out.println("Id de la catégorie (Entrez un id existant dans la base) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setCategory(new Category(Integer.parseInt(saisie)));
 
@@ -197,6 +205,7 @@ public class Formation implements IModel<Formation> {
         while (!saisie.matches("[0-9]+") || new DaoTeacher().getOne(saisie) == null) {
             System.out.println("Id du formateur (Entrez un id existant dans la base) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setTeacher(new Teacher(Integer.parseInt(saisie)));
 

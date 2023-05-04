@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Teacher implements IModel<Teacher> {
@@ -57,6 +58,7 @@ public class Teacher implements IModel<Teacher> {
         while (saisie.matches("^$")) {
             System.out.println("Prénom (obligatoire) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setFirstName(saisie);
 
@@ -64,6 +66,7 @@ public class Teacher implements IModel<Teacher> {
         while (saisie.matches("^$")) {
             System.out.println("Nom de famille (obligatoire) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setLastName(saisie);
 

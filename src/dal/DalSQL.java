@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class DalSQL implements IDal {
 
-    private Connection cnx;
-    private Map<Class<?>, IDao<?>> dao;
+    private final Connection cnx;
+    private final Map<Class<?>, IDao<?>> dao;
 
     public DalSQL(Map<Class<?>, IDao<?>> dao, Connection cnx) {
         this.dao = dao;
@@ -30,7 +30,7 @@ public class DalSQL implements IDal {
         try {
             stmt = this.cnx.createStatement();
         } catch (SQLException e) {
-            System.out.println("Echec création statement");
+            System.out.println("Échec création statement");
             System.out.println(e.getMessage());
             System.exit(15);
         }
@@ -48,7 +48,7 @@ public class DalSQL implements IDal {
             stmt.executeUpdate(rqt);
             System.out.println("\nInitialisation de la base réussie !");
         } catch (SQLException e) {
-            System.out.println("Echec création statement");
+            System.out.println("Échec création statement");
             System.out.println(e.getMessage());
             System.exit(15);
         }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DaoFormation implements IDao<Formation> {
 
-    private Connection cnx = new SQLConnection().getConnection();
+    private final Connection cnx = new SQLConnection().getConnection();
 
     @Override
     public List<Formation> getAll() {

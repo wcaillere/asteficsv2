@@ -49,6 +49,7 @@ public class Category implements IModel<Category> {
         while (saisie.matches("^$")) {
             System.out.println("Nom de la catégorie (obligatoire) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setName(saisie);
 

@@ -54,6 +54,7 @@ public class Student implements IModel<Student> {
         while (saisie.matches("^$")) {
             System.out.println("Prénom (obligatoire) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setFirstName(saisie);
 
@@ -61,6 +62,7 @@ public class Student implements IModel<Student> {
         while (saisie.matches("^$")) {
             System.out.println("Nom de famille (obligatoire) : ");
             saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
         }
         setLastName(saisie);
 
