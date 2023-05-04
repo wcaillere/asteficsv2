@@ -112,6 +112,7 @@ public class Main {
                 case "5" -> {
                     saisie = askValidInput(clavier);
                     System.out.println("\nSuppression de l'élément " + saisie + " de la liste...");
+                    dal.suppressOne(classTb.get(chosenMenu), saisie);
                     renderDetails(chosenMenu);
                 }
                 // Retour au menu

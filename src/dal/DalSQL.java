@@ -68,4 +68,9 @@ public class DalSQL implements IDal {
     public Object getOne(Class<?> entity, String id) {
         return getDao().get(entity).getOne(id);
     }
+
+    @Override
+    public void suppressOne(Class<?> entity, String id) {
+        getDao().get(entity).suppressOne(id);
+    }
 }

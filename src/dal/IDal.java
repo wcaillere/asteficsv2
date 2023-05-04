@@ -13,6 +13,8 @@ public interface IDal {
 
     List<?> getAll(Class<?> entity);
 
-    public Object getOne(Class<?> Entity, String id);
+    public Object getOne(Class<?> entity, String id);
+
+    public void suppressOne(Class<?> entity, String id);
 
 }

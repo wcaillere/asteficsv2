@@ -93,5 +93,27 @@ public class DaoStudent implements IDao<Student> {
     @Override
     public void suppressOne(String id) {
 
+        String rqt = "DELETE FROM students WHERE id=" + id;
+        Statement stmt = null;
+
+        try {
+            stmt = this.cnx.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT id FROM students WHERE id=" + id);
+
+            if (rs.next()) {
+                stmt = this.cnx.createStatement();
+                stmt.executeUpdate(rqt);
+
+                System.out.println("Suppression réussie !");
+            } else {
+                System.out.println("Suppression annulée : aucun élément ne possède l'id donné");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Échec de la suppression");
+            System.out.println(e.getMessage());
+            System.exit(35);
+        }
     }
 }
