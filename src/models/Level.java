@@ -1,6 +1,6 @@
 package models;
 
-public class Level {
+public class Level implements IModel<Level> {
 
     private int id;
     private String name;
@@ -8,6 +8,10 @@ public class Level {
     public Level(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Level(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -29,5 +33,10 @@ public class Level {
     @Override
     public String toString() {
         return String.format("le niveau %d a pour nom '%s'", this.id, this.name);
+    }
+
+    @Override
+    public Level verifyInput() {
+        return null;
     }
 }

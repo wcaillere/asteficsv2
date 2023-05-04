@@ -2,11 +2,9 @@ package dao;
 
 import connection.SQLConnection;
 import models.Category;
+import models.Student;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,8 +76,24 @@ public class DaoCategory implements IDao<Category> {
     }
 
     @Override
-    public void createOne() {
+    public void createOne(Object information) {
+        String rqt = "insert into categories (name_category) VALUES (?)";
 
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            Category category = (Category) information;
+
+            prstmt.setString(1, category.getName());
+            prstmt.executeUpdate();
+
+            System.out.println("Création de la catégorie réussie !");
+        } catch (SQLException e) {
+            System.out.println("erreur création de la catégorie : " + e.getMessage());
+            System.exit(40);
+        }
     }
 
     @Override

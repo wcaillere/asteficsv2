@@ -1,6 +1,8 @@
 package models;
 
-public class Category {
+import java.util.Scanner;
+
+public class Category implements IModel<Category> {
 
     private int id;
     private String name;
@@ -8,6 +10,14 @@ public class Category {
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Category() {
+
+    }
+
+    public Category(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -29,5 +39,19 @@ public class Category {
     @Override
     public String toString() {
         return String.format("La catégorie %d a pour nom '%s'", this.id, this.name);
+    }
+
+    @Override
+    public Category verifyInput() {
+        Scanner clavier = new Scanner(System.in);
+
+        String saisie = "";
+        while (saisie.matches("^$")) {
+            System.out.println("Nom de la catégorie (obligatoire) : ");
+            saisie = clavier.nextLine();
+        }
+        setName(saisie);
+
+        return this;
     }
 }

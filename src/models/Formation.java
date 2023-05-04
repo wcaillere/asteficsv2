@@ -1,8 +1,13 @@
 package models;
 
-import java.util.Date;
+import dao.DaoCategory;
+import dao.DaoTeacher;
 
-public class Formation {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class Formation implements IModel<Formation> {
 
     private int id;
     private String name;
@@ -26,6 +31,10 @@ public class Formation {
         this.program = program;
         this.category = category;
         this.teacher = teacher;
+    }
+
+    public Formation() {
+
     }
 
     public int getId() {
@@ -117,4 +126,85 @@ public class Formation {
                 (this.isOnline ? "Elle se déroule en ligne" : "Elle se déroule sur place") +
                 " avec le formateur " + this.teacher.getFirstName() + " " + this.teacher.getLastName();
     }
+
+    @Override
+    public Formation verifyInput() {
+        Scanner clavier = new Scanner(System.in);
+
+        String saisie = "";
+        while (saisie.matches("^$")) {
+            System.out.println("Nom : ");
+            saisie = clavier.nextLine();
+        }
+        setName(saisie);
+
+        saisie = "";
+        while (!saisie.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+            System.out.println("Date de type (AAAA-MM-JJ) : ");
+            saisie = clavier.nextLine();
+        }
+        try {
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+            setBegin_at(f.parse(saisie));
+        } catch (Exception e) {
+            System.out.println("Erreur création Date " + e.getMessage());
+            System.exit(105);
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+")) {
+            System.out.println("Nombre de jours : ");
+            saisie = clavier.nextLine();
+        }
+        setNbDays(Integer.parseInt(saisie));
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+[.]?[0-9]{0,2}")) {
+            System.out.println("Prix (en euros) : ");
+            saisie = clavier.nextLine();
+        }
+        setPrice(Float.parseFloat(saisie));
+
+        saisie = "";
+        while (!saisie.matches("[1-3]")) {
+            System.out.println("Id de la difficulté (1-basique, 2-intermédiaire, 3-difficile) : ");
+            saisie = clavier.nextLine();
+        }
+        setLevel(new Level(Integer.parseInt(saisie)));
+
+        saisie = "";
+        while (!saisie.matches("[0-1]")) {
+            System.out.println("la formation est-elle en ligne ? (0-non, 1-oui) : ");
+            saisie = clavier.nextLine();
+        }
+        setOnline(!saisie.equals("0"));
+
+        saisie = "";
+        while (saisie.matches("^$")) {
+            System.out.println("Programme : ");
+            saisie = clavier.nextLine();
+        }
+        setProgram(saisie);
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+") || new DaoCategory().getOne(saisie) == null) {
+            System.out.println("Id de la catégorie (Entrez un id existant dans la base) : ");
+            saisie = clavier.nextLine();
+        }
+        setCategory(new Category(Integer.parseInt(saisie)));
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+") || new DaoTeacher().getOne(saisie) == null) {
+            System.out.println("Id du formateur (Entrez un id existant dans la base) : ");
+            saisie = clavier.nextLine();
+        }
+        setTeacher(new Teacher(Integer.parseInt(saisie)));
+
+        return this;
+    }
 }
+
+/*
+        this.category = category;
+        this.teacher = teacher;
+ */

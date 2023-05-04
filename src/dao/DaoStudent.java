@@ -3,10 +3,7 @@ package dao;
 import connection.SQLConnection;
 import models.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,8 +78,26 @@ public class DaoStudent implements IDao<Student> {
     }
 
     @Override
-    public void createOne() {
+    public void createOne(Object information) {
+        String rqt = "insert into students (firstName, lastName) VALUES (? , ?)";
 
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            Student student = (Student) information;
+
+            prstmt.setString(1, student.getFirstName());
+            prstmt.setString(2, student.getLastName());
+
+            prstmt.executeUpdate();
+
+            System.out.println("Création de l'étudiant réussie !");
+        } catch (SQLException e) {
+            System.out.println("erreur création de l'étudiant : " + e.getMessage());
+            System.exit(40);
+        }
     }
 
     @Override

@@ -9,12 +9,14 @@ public interface IDal {
 
     Map<Class<?>, IDao<?>> getDao();
 
-    public void InitializeDB();
+    void InitializeDB();
 
     List<?> getAll(Class<?> entity);
 
-    public Object getOne(Class<?> entity, String id);
+    Object getOne(Class<?> entity, String id);
 
-    public void suppressOne(Class<?> entity, String id);
+    void createOne(Class<?> entity, Object information);
+
+    void suppressOne(Class<?> entity, String id);
 
 }

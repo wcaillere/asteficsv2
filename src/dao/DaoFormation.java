@@ -1,15 +1,9 @@
 package dao;
 
 import connection.SQLConnection;
-import models.Category;
-import models.Formation;
-import models.Level;
-import models.Teacher;
+import models.*;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +31,7 @@ public class DaoFormation implements IDao<Formation> {
             while (rs.next()) {
                 Formation result = new Formation(
                         rs.getInt("id"),
-                        rs.getString("name_category"),
+                        rs.getString("name_formation"),
                         rs.getDate("begin_at"),
                         rs.getInt("nbDays"),
                         rs.getFloat("price"),
@@ -98,8 +92,34 @@ public class DaoFormation implements IDao<Formation> {
     }
 
     @Override
-    public void createOne() {
+    public void createOne(Object information) {
+        String rqt = "insert into formations (name_formation, begin_at, nbDays, price, id_level, isOnline, program, id_category, id_teacher) " +
+                "VALUES (? , ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            Formation formation = (Formation) information;
+
+            prstmt.setString(1, formation.getName());
+            prstmt.setDate(2, new Date(formation.getBegin_at().getTime()));
+            prstmt.setInt(3, formation.getNbDays());
+            prstmt.setFloat(4, formation.getPrice());
+            prstmt.setInt(5, formation.getLevel().getId());
+            prstmt.setBoolean(6, formation.isOnline());
+            prstmt.setString(7, formation.getProgram());
+            prstmt.setInt(8, formation.getCategory().getId());
+            prstmt.setInt(9, formation.getTeacher().getId());
+
+            prstmt.executeUpdate();
+
+            System.out.println("Création de la formation réussie !");
+        } catch (SQLException e) {
+            System.out.println("erreur création de la formation : " + e.getMessage());
+            System.exit(40);
+        }
     }
 
     @Override

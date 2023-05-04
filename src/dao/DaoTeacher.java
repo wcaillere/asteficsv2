@@ -1,14 +1,9 @@
 package dao;
 
 import connection.SQLConnection;
-import models.Category;
-import models.Student;
 import models.Teacher;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,8 +78,26 @@ public class DaoTeacher implements IDao<Teacher> {
     }
 
     @Override
-    public void createOne() {
+    public void createOne(Object information) {
+        String rqt = "insert into teachers (firstName, lastName) VALUES (? , ?)";
 
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            Teacher teacher = (Teacher) information;
+
+            prstmt.setString(1, teacher.getFirstName());
+            prstmt.setString(2, teacher.getLastName());
+
+            prstmt.executeUpdate();
+
+            System.out.println("Création du formateur réussie !");
+        } catch (SQLException e) {
+            System.out.println("erreur création formateur : " + e.getMessage());
+            System.exit(40);
+        }
     }
 
     @Override

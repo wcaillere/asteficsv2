@@ -7,7 +7,7 @@ public interface IDao<T> {
 
     T getOne(String id);
 
-    void createOne();
+    void createOne(Object information);
 
     void modifyOne(String id);
 

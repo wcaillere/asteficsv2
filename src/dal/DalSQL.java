@@ -1,17 +1,12 @@
 package dal;
 
 import dao.*;
-import models.Category;
-import models.Formation;
-import models.Student;
-import models.Teacher;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class DalSQL implements IDal {
 
@@ -67,6 +62,11 @@ public class DalSQL implements IDal {
     @Override
     public Object getOne(Class<?> entity, String id) {
         return getDao().get(entity).getOne(id);
+    }
+
+    @Override
+    public void createOne(Class<?> entity, Object information) {
+        getDao().get(entity).createOne(information);
     }
 
     @Override

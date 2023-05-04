@@ -1,6 +1,8 @@
 package models;
 
-public class Student {
+import java.util.Scanner;
+
+public class Student implements IModel<Student> {
 
     private int id;
     private String firstName;
@@ -10,6 +12,10 @@ public class Student {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Student() {
+
     }
 
     public int getId() {
@@ -39,5 +45,25 @@ public class Student {
     @Override
     public String toString() {
         return String.format("L'étudiant %d est %s %s", this.id, this.firstName, this.lastName);
+    }
+
+    public Student verifyInput() {
+        Scanner clavier = new Scanner(System.in);
+
+        String saisie = "";
+        while (saisie.matches("^$")) {
+            System.out.println("Prénom (obligatoire) : ");
+            saisie = clavier.nextLine();
+        }
+        setFirstName(saisie);
+
+        saisie = "";
+        while (saisie.matches("^$")) {
+            System.out.println("Nom de famille (obligatoire) : ");
+            saisie = clavier.nextLine();
+        }
+        setLastName(saisie);
+
+        return this;
     }
 }

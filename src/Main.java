@@ -4,6 +4,7 @@ import dal.IDal;
 import dao.*;
 import models.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.util.*;
 
@@ -92,7 +93,7 @@ public class Main {
                     System.out.println("\nAffichage de l'élément " + saisie + " de la liste :");
                     Object result = dal.getOne(classTb.get(chosenMenu), saisie);
                     if (result != null) {
-                        System.out.println(result.toString());
+                        System.out.println(result);
                     } else {
                         System.out.println("Aucun élément d'id " + saisie + " n'a été trouvé");
                     }
@@ -100,7 +101,17 @@ public class Main {
                 }
                 // Création d'un élément
                 case "3" -> {
-                    System.out.println("\nVeuillez remplir ces champs");
+                    System.out.println("\nVeuillez remplir tous ces champs obligatoires");
+                    Class<?> clazz = classTb.get(chosenMenu);
+                    try {
+                        IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
+                        IModel<?> verifiedInput = (IModel<?>) entity.verifyInput();
+                        dal.createOne(classTb.get(chosenMenu), verifiedInput);
+                    } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                             IllegalAccessException e) {
+                        System.out.println("Erreur création élément : " + e.getMessage());
+                        System.exit(100);
+                    }
                     renderDetails(chosenMenu);
                 }
                 // Modification d'un élément d'id donné
@@ -126,7 +137,7 @@ public class Main {
 
     private static void renderList(List<?> list) {
         for (Object item : list) {
-            System.out.println(item.toString());
+            System.out.println(item);
         }
     }
 
