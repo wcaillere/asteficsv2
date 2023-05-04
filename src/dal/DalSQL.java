@@ -23,7 +23,7 @@ public class DalSQL implements IDal {
         return dao;
     }
 
-    public void InitializeDB() {
+    public void initializeDB() {
 
         Statement stmt = null;
 
@@ -46,7 +46,7 @@ public class DalSQL implements IDal {
 
         try {
             stmt.executeUpdate(rqt);
-            System.out.println("\nInitialisation de la base réussie !");
+            System.out.println("\nRéinitialisation de la base réussie !");
         } catch (SQLException e) {
             System.out.println("Échec création statement");
             System.out.println(e.getMessage());

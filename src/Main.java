@@ -17,7 +17,7 @@ public class Main {
     }
 
     private static void renderMenu() {
-        String[] menuMsg = {"1. Initialiser la base", "2. Gérer formations", "3. Gérer catégories",
+        String[] menuMsg = {"1. Réinitialiser la base", "2. Gérer formations", "3. Gérer catégories",
                 "4. Gérer formateurs", "5. Gérer stagiaires", "6. Quitter l'application"};
 
         System.out.println("\n---- Menu ----");
@@ -34,7 +34,16 @@ public class Main {
 
             switch (saisie) {
                 case "1" -> {
-
+                    IDal dal = new DalSQL(
+                            Map.of(
+                                    Category.class, new DaoCategory(),
+                                    Student.class, new DaoStudent(),
+                                    Formation.class, new DaoFormation(),
+                                    Teacher.class, new DaoTeacher()
+                            ), new SQLConnection().getConnection()
+                    );
+                    dal.initializeDB();
+                    renderMenu();
                 }
                 case "2" -> renderDetails("formation");
                 case "3" -> renderDetails("catégorie");

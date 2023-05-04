@@ -9,7 +9,7 @@ public interface IDal {
 
     Map<Class<?>, IDao<?>> getDao();
 
-    void InitializeDB();
+    void initializeDB();
 
     List<?> getAll(Class<?> entity);
 
