@@ -1,8 +1,14 @@
-import dal.*;
+import connection.SQLConnection;
+import dal.DalSQL;
+import dal.IDal;
+import dao.*;
+import models.*;
 
 import java.util.*;
 
 public class Main {
+
+
     public static void main(String[] args) {
 
         // Affichage du menu
@@ -27,6 +33,7 @@ public class Main {
 
             switch (saisie) {
                 case "1" -> {
+
                 }
                 case "2" -> renderDetails("formation");
                 case "3" -> renderDetails("catégorie");
@@ -43,14 +50,21 @@ public class Main {
         String[] choosenMsg = {"1. Afficher la liste des ", "2. Afficher ", "3. Créer ", "4. Modifier ",
                 "5. Supprimer ", "6. Menu", "7. Quitter l'application"};
 
-        Map<String, IDal<?>> dalTb = new HashMap<>();
-        dalTb.put("formation", new DalFormation());
-        dalTb.put("catégorie", new DalCategory());
-        dalTb.put("formateur", new DalTeacher());
-        dalTb.put("stagiaire", new DalStudent());
+        Map<String, Class<?>> classTb = new HashMap<>();
+        classTb.put("formation", Formation.class);
+        classTb.put("catégorie", Category.class);
+        classTb.put("formateur", Teacher.class);
+        classTb.put("stagiaire", Student.class);
 
-        // Choix du dal correspondant à l'entité choisie
-        IDal<?> dal = dalTb.get(chosenMenu);
+
+        IDal dal = new DalSQL(
+                Map.of(
+                        Category.class, new DaoCategory(),
+                        Student.class, new DaoStudent(),
+                        Formation.class, new DaoFormation(),
+                        Teacher.class, new DaoTeacher()
+                ), new SQLConnection().getConnection()
+        );
 
         System.out.println("\n---- " + chosenMenu + " ----");
         // Si un espace était laissé à la fin du message, on rajoute le nom de l'onglet
@@ -68,6 +82,7 @@ public class Main {
                 // Affichage de tous les éléments de la table
                 case "1" -> {
                     System.out.println("\n-------------------------\nListe des " + chosenMenu + "s : ");
+                    dal.getAll(classTb.get(chosenMenu));
                     renderDetails(chosenMenu);
                 }
                 // Affichage d'un élément d'id donné

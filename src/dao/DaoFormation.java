@@ -1,13 +1,15 @@
-package dal;
+package dao;
 
 import models.Formation;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DalFormation implements IDal<Formation> {
+public class DaoFormation implements IDao<Formation> {
     @Override
     public List<Formation> getAll() {
-        return null;
+        System.out.println("test réussi");
+        return new ArrayList<>();
     }
 
     @Override

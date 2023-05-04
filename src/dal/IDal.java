@@ -1,15 +1,18 @@
 package dal;
 
+import dao.IDao;
+
 import java.util.List;
+import java.util.Map;
 
-public interface IDal<T> {
-    List<T> getAll();
+public interface IDal {
 
-    T getOne(String id);
+    Map<Class<?>, IDao<?>> getDao();
 
-    void createOne();
+    public void InitializeDB();
 
-    void modifyOne(String id);
+    List<?> getAll(Class<?> entity);
 
-    void suppressOne(String id);
+    public Object getOne(Class<?> Entity, String id);
+
 }

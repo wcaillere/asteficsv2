@@ -1,17 +1,19 @@
-package dal;
+package dao;
 
-import models.Category;
+import models.Teacher;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DalCategory implements IDal<Category> {
+public class DaoTeacher implements IDao<Teacher> {
     @Override
-    public List<Category> getAll() {
-        return null;
+    public List<Teacher> getAll() {
+        System.out.println("test T");
+        return new ArrayList<>();
     }
 
     @Override
-    public Category getOne(String id) {
+    public Teacher getOne(String id) {
         return null;
     }
 

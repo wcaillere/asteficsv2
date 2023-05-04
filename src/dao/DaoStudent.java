@@ -1,17 +1,19 @@
-package dal;
+package dao;
 
-import models.Level;
+import models.Student;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class DalLevel implements IDal<Level> {
+public class DaoStudent implements IDao<Student> {
     @Override
-    public List<Level> getAll() {
-        return null;
+    public List<Student> getAll() {
+        System.out.println("test STS");
+        return new ArrayList<>();
     }
 
     @Override
-    public Level getOne(String id) {
+    public Student getOne(String id) {
         return null;
     }
 
