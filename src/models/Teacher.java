@@ -6,7 +6,8 @@ public class Teacher {
     private String firstName;
     private String lastName;
 
-    public Teacher(String firstName, String lastName) {
+    public Teacher(int id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }

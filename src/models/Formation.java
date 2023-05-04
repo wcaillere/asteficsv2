@@ -15,7 +15,8 @@ public class Formation {
     private Category category;
     private Teacher teacher;
 
-    public Formation(String name, Date begin_at, int nbDays, float price, Level level, boolean isOnline, String program, Category category, Teacher teacher) {
+    public Formation(int id, String name, Date begin_at, int nbDays, float price, Level level, boolean isOnline, String program, Category category, Teacher teacher) {
+        this.id = id;
         this.name = name;
         this.begin_at = begin_at;
         this.nbDays = nbDays;
@@ -111,9 +112,9 @@ public class Formation {
     public String toString() {
         return String.format("la formation %d de catégorie '%s' et de niveau '%s' a pour nom '%s' et pour programme '%s'",
                 this.id, this.category.getName(), this.level.getName(), this.name, this.program) +
-                "Elle commence le " + this.begin_at +
-                String.format(" et dure %d jour(s) pour un prix total de %f. ", this.nbDays, this.price) +
+                ". Elle commence le " + this.begin_at +
+                String.format(" et dure %d jour(s) pour un prix total de %f€. ", this.nbDays, this.price) +
                 (this.isOnline ? "Elle se déroule en ligne" : "Elle se déroule sur place") +
-                " avec le formateur " + this.teacher.getFirstName() + this.teacher.getLastName();
+                " avec le formateur " + this.teacher.getFirstName() + " " + this.teacher.getLastName();
     }
 }
