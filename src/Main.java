@@ -15,6 +15,10 @@ public class Main {
         renderMenu();
     }
 
+    /**
+     * Affiche dans la console le menu principal de l'application et attend l'entrée d'une touche
+     * par l'utilisateur.
+     */
     private static void renderMenu() {
         String[] menuMsg = {"1. Réinitialiser la base", "2. Gérer formations", "3. Gérer catégories",
                 "4. Gérer formateurs", "5. Gérer stagiaires", "6. Quitter l'application"};
@@ -24,11 +28,10 @@ public class Main {
             System.out.println(msg);
         }
 
+        // Le menu principal reste ouvert tant que l'utilisateur n'entre pas une commande connue
         String saisie;
-
         while (true) {
             Scanner clavier = new Scanner(System.in);
-
             saisie = clavier.nextLine();
 
             switch (saisie) {
@@ -55,17 +58,23 @@ public class Main {
         }
     }
 
+    /**
+     * Affiche le sous-menu choisi par l'utilisateur depuis le menu principal
+     *
+     * @param chosenMenu La string correspondant au menu choisi
+     */
     private static void renderDetails(String chosenMenu) {
         String[] choosenMsg = {"1. Afficher la liste des ", "2. Afficher ", "3. Créer ", "4. Modifier ",
                 "5. Supprimer ", "6. Menu", "7. Quitter l'application"};
 
+        // Permet de savoir quelle classe sera utilisée pour les méthodes
         Map<String, Class<?>> classTb = new HashMap<>();
         classTb.put("formation", Formation.class);
         classTb.put("catégorie", Category.class);
         classTb.put("formateur", Teacher.class);
         classTb.put("stagiaire", Student.class);
 
-
+        // Initialisation du DAL
         IDal dal = new DalSQL(
                 Map.of(
                         Category.class, new DaoCategory(),
@@ -75,16 +84,14 @@ public class Main {
                 ), new SQLConnection().getConnection()
         );
 
+        // Affichage des commandes possibles pour l'utilisateur
         System.out.println("\n---- " + chosenMenu + " ----");
-        // Si un espace était laissé à la fin du message, on rajoute le nom de l'onglet
-        // choisi dans le menu. Un "s" est rajouté au nom de l'onglet pour le msg 1
         for (String msg : choosenMsg) {
             System.out.println(msg.endsWith(" ") ? msg + chosenMenu + (msg.startsWith("1") ? "s" : "") : msg);
         }
 
         while (true) {
             Scanner clavier = new Scanner(System.in);
-
             String saisie = clavier.nextLine();
 
             switch (saisie) {
@@ -112,6 +119,7 @@ public class Main {
                     System.out.println("\nRemplissez tous ces champs obligatoires (Entrez '&' pour annuler la création)");
                     Class<?> clazz = classTb.get(chosenMenu);
                     try {
+                        // Création d'une instance de la classe choisie pour le sous menu
                         IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
                         IModel<?> verifiedInput = (IModel<?>) entity.verifyCreationInput();
                         // Si verifiedInput est null, alors l'utilisateur est sorti de la saisie
@@ -130,6 +138,7 @@ public class Main {
                 // Modification d'un élément d'id donné
                 case "4" -> {
                     saisie = askValidId(clavier);
+                    // Vérification de l'existence de l'objet à modifier dans la base de données
                     Object foundedObject = dal.getOne(classTb.get(chosenMenu), saisie);
                     if (foundedObject == null) {
                         System.out.println("Modification annulée : l'élément d'id " + saisie + " n'existe pas");
@@ -169,12 +178,23 @@ public class Main {
         }
     }
 
+    /**
+     * Écrit dans la console chaque item d'une liste (grâce à leur méthode toString())
+     *
+     * @param list la liste des éléments à écrire dans la console
+     */
     private static void renderList(List<?> list) {
         for (Object item : list) {
             System.out.println(item);
         }
     }
 
+    /**
+     * Demande à l'utilisateur un id et vérifie sa validité (input numérique)
+     *
+     * @param clavier Le scanner utilisé pour la console
+     * @return L'id vérifié
+     */
     private static String askValidId(Scanner clavier) {
         do {
             System.out.println("\nEntrez l'id de l'élément : ");

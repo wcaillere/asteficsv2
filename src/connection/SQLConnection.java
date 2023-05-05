@@ -3,12 +3,11 @@ package connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class SQLConnection {
+public class SQLConnection implements IConnection {
 
     public Connection getConnection() {
-
+        
         Connection cnx = null;
 
         try {
