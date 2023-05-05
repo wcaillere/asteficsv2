@@ -101,8 +101,28 @@ public class DaoTeacher implements IDao<Teacher> {
     }
 
     @Override
-    public void modifyOne(String id) {
+    public void modifyOne(String id, Object information) {
 
+        Teacher foundedObject = getOne(id);
+        Teacher modifications = (Teacher) information;
+
+        String rqt = "UPDATE teachers SET firstName=?, lastName=? WHERE id=?";
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            prstmt.setString(1, modifications.getFirstName() != null ? modifications.getFirstName() : foundedObject.getFirstName());
+            prstmt.setString(2, modifications.getLastName() != null ? modifications.getLastName() : foundedObject.getLastName());
+            prstmt.setString(3, id);
+
+            prstmt.executeUpdate();
+
+            System.out.println("Modification réussie !");
+        } catch (SQLException e) {
+            System.out.println("Échec de la modification : " + e.getMessage());
+            System.exit(45);
+        }
     }
 
     @Override
@@ -126,8 +146,7 @@ public class DaoTeacher implements IDao<Teacher> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Échec de la suppression");
-            System.out.println(e.getMessage());
+            System.out.println("Échec de la suppression : " + e.getMessage());
             System.exit(35);
         }
     }

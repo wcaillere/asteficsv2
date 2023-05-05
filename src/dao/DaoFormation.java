@@ -123,7 +123,7 @@ public class DaoFormation implements IDao<Formation> {
     }
 
     @Override
-    public void modifyOne(String id) {
+    public void modifyOne(String id, Object information) {
 
     }
 

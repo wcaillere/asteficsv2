@@ -17,6 +17,8 @@ public interface IDal {
 
     void createOne(Class<?> entity, Object information);
 
+    void modifyOne(Class<?> entity, String id, Object information);
+
     void suppressOne(Class<?> entity, String id);
 
 }

@@ -2,5 +2,7 @@ package models;
 
 public interface IModel<T> {
 
-    public T verifyInput();
+    public T verifyCreationInput();
+
+    public T verifyModificationInput();
 }

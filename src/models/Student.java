@@ -47,7 +47,7 @@ public class Student implements IModel<Student> {
         return String.format("L'étudiant %d est %s %s", this.id, this.firstName, this.lastName);
     }
 
-    public Student verifyInput() {
+    public Student verifyCreationInput() {
         Scanner clavier = new Scanner(System.in);
 
         String saisie = "";
@@ -67,5 +67,10 @@ public class Student implements IModel<Student> {
         setLastName(saisie);
 
         return this;
+    }
+
+    @Override
+    public Student verifyModificationInput() {
+        return null;
     }
 }

@@ -5,7 +5,6 @@ import dao.*;
 import models.*;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
 import java.util.*;
 
 public class Main {
@@ -98,7 +97,7 @@ public class Main {
                 }
                 // Affichage d'un élément d'id donné
                 case "2" -> {
-                    saisie = askValidInput(clavier);
+                    saisie = askValidId(clavier);
                     System.out.println("\nAffichage de l'élément " + saisie + " de la liste :");
                     Object result = dal.getOne(classTb.get(chosenMenu), saisie);
                     if (result != null) {
@@ -114,7 +113,7 @@ public class Main {
                     Class<?> clazz = classTb.get(chosenMenu);
                     try {
                         IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
-                        IModel<?> verifiedInput = (IModel<?>) entity.verifyInput();
+                        IModel<?> verifiedInput = (IModel<?>) entity.verifyCreationInput();
                         // Si verifiedInput est null, alors l'utilisateur est sorti de la saisie
                         if (verifiedInput != null) {
                             dal.createOne(classTb.get(chosenMenu), verifiedInput);
@@ -130,12 +129,33 @@ public class Main {
                 }
                 // Modification d'un élément d'id donné
                 case "4" -> {
-                    System.out.println("\nModification d'un élément");
+                    saisie = askValidId(clavier);
+                    Object foundedObject = dal.getOne(classTb.get(chosenMenu), saisie);
+                    if (foundedObject == null) {
+                        System.out.println("Modification annulée : l'élément d'id " + saisie + " n'existe pas");
+                    } else {
+                        System.out.println("\nRemplissez les champs à modifier (entrez '&' pour quitter à tout moment)");
+                        Class<?> clazz = classTb.get(chosenMenu);
+                        try {
+                            IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
+                            IModel<?> verifiedInput = (IModel<?>) entity.verifyModificationInput();
+                            // Si verifiedInput est null, alors l'utilisateur est sorti de la saisie
+                            if (verifiedInput != null) {
+                                dal.modifyOne(classTb.get(chosenMenu), saisie, verifiedInput);
+                            } else {
+                                System.out.println("Modification annulée");
+                            }
+                        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                                 IllegalAccessException e) {
+                            System.out.println("Erreur Modification élément : " + e.getMessage());
+                            System.exit(100);
+                        }
+                    }
                     renderDetails(chosenMenu);
                 }
                 // Suppression d'un élément d'id donné
                 case "5" -> {
-                    saisie = askValidInput(clavier);
+                    saisie = askValidId(clavier);
                     System.out.println("\nSuppression de l'élément " + saisie + " de la liste...");
                     dal.suppressOne(classTb.get(chosenMenu), saisie);
                     renderDetails(chosenMenu);
@@ -155,14 +175,7 @@ public class Main {
         }
     }
 
-    private static void renderHashMap(HashMap<String, Object> hm) {
-        Object[] hashKeys = hm.keySet().toArray();
-        for (Object key : hashKeys) {
-            System.out.print(key + " : " + hm.get(key) + ", ");
-        }
-    }
-
-    private static String askValidInput(Scanner clavier) {
+    private static String askValidId(Scanner clavier) {
         do {
             System.out.println("\nEntrez l'id de l'élément : ");
             String saisie = clavier.nextLine();

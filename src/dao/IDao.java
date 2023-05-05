@@ -9,7 +9,7 @@ public interface IDao<T> {
 
     void createOne(Object information);
 
-    void modifyOne(String id);
+    void modifyOne(String id, Object information);
 
     void suppressOne(String id);
 }

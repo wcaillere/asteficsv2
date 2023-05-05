@@ -97,7 +97,7 @@ public class DaoCategory implements IDao<Category> {
     }
 
     @Override
-    public void modifyOne(String id) {
+    public void modifyOne(String id, Object information) {
 
     }
 

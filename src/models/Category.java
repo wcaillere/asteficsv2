@@ -42,7 +42,7 @@ public class Category implements IModel<Category> {
     }
 
     @Override
-    public Category verifyInput() {
+    public Category verifyCreationInput() {
         Scanner clavier = new Scanner(System.in);
 
         String saisie = "";
@@ -54,5 +54,10 @@ public class Category implements IModel<Category> {
         setName(saisie);
 
         return this;
+    }
+
+    @Override
+    public Category verifyModificationInput() {
+        return null;
     }
 }

@@ -128,7 +128,7 @@ public class Formation implements IModel<Formation> {
     }
 
     @Override
-    public Formation verifyInput() {
+    public Formation verifyCreationInput() {
         Scanner clavier = new Scanner(System.in);
 
         String saisie = "";
@@ -210,6 +210,11 @@ public class Formation implements IModel<Formation> {
         setTeacher(new Teacher(Integer.parseInt(saisie)));
 
         return this;
+    }
+
+    @Override
+    public Formation verifyModificationInput() {
+        return null;
     }
 }
 

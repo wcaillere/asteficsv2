@@ -101,7 +101,7 @@ public class DaoStudent implements IDao<Student> {
     }
 
     @Override
-    public void modifyOne(String id) {
+    public void modifyOne(String id, Object information) {
 
     }
 

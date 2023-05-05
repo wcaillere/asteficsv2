@@ -1,6 +1,5 @@
 package models;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class Teacher implements IModel<Teacher> {
@@ -51,12 +50,12 @@ public class Teacher implements IModel<Teacher> {
         return String.format("Le formateur %d est %s %s", this.id, this.firstName, this.lastName);
     }
 
-    public Teacher verifyInput() {
+    public Teacher verifyCreationInput() {
         Scanner clavier = new Scanner(System.in);
 
         String saisie = "";
         while (saisie.matches("^$")) {
-            System.out.println("Prénom (obligatoire) : ");
+            System.out.println("Prénom : ");
             saisie = clavier.nextLine();
             if (saisie.equals("&")) return null;
         }
@@ -64,12 +63,32 @@ public class Teacher implements IModel<Teacher> {
 
         saisie = "";
         while (saisie.matches("^$")) {
-            System.out.println("Nom de famille (obligatoire) : ");
+            System.out.println("Nom de famille : ");
             saisie = clavier.nextLine();
             if (saisie.equals("&")) return null;
         }
         setLastName(saisie);
 
+        return this;
+    }
+
+    @Override
+    public Teacher verifyModificationInput() {
+        Scanner clavier = new Scanner(System.in);
+
+        System.out.println("Prénom : ");
+        String saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setFirstName(saisie);
+        }
+
+        System.out.println("Nom de famille : ");
+        saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setLastName(saisie);
+        }
 
         return this;
     }

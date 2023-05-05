@@ -36,7 +36,12 @@ public class Level implements IModel<Level> {
     }
 
     @Override
-    public Level verifyInput() {
+    public Level verifyCreationInput() {
+        return null;
+    }
+
+    @Override
+    public Level verifyModificationInput() {
         return null;
     }
 }
