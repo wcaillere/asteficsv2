@@ -125,6 +125,35 @@ public class DaoFormation implements IDao<Formation> {
     @Override
     public void modifyOne(String id, Object information) {
 
+        Formation foundedObject = getOne(id);
+        Formation modifications = (Formation) information;
+
+        String rqt = "UPDATE formations SET name_formation=?, begin_at=?, nbDays=?, price=?, id_level=?, isOnline=?, program=?, id_category=?, id_teacher=? WHERE id=?";
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            prstmt.setString(1, modifications.getName() != null ? modifications.getName() : foundedObject.getName());
+            prstmt.setDate(2, modifications.getBegin_at() != null ?
+                    new Date(modifications.getBegin_at().getTime()) :
+                    new Date(foundedObject.getBegin_at().getTime()));
+            prstmt.setInt(3, modifications.getNbDays() != 0 ? modifications.getNbDays() : foundedObject.getNbDays());
+            prstmt.setFloat(4, modifications.getPrice() != 0.0 ? modifications.getPrice() : foundedObject.getPrice());
+            prstmt.setInt(5, modifications.getLevel() != null ? modifications.getLevel().getId() : foundedObject.getLevel().getId());
+            prstmt.setBoolean(6, modifications.isOnline() != null ? modifications.isOnline() : foundedObject.isOnline());
+            prstmt.setString(7, modifications.getProgram() != null ? modifications.getProgram() : foundedObject.getProgram());
+            prstmt.setInt(8, modifications.getCategory() != null ? modifications.getCategory().getId() : foundedObject.getCategory().getId());
+            prstmt.setInt(9, modifications.getTeacher() != null ? modifications.getTeacher().getId() : foundedObject.getTeacher().getId());
+            prstmt.setString(10, id);
+
+            prstmt.executeUpdate();
+
+            System.out.println("Modification réussie !");
+        } catch (SQLException e) {
+            System.out.println("Échec de la modification : " + e.getMessage());
+            System.exit(45);
+        }
     }
 
     @Override

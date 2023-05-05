@@ -99,6 +99,25 @@ public class DaoCategory implements IDao<Category> {
     @Override
     public void modifyOne(String id, Object information) {
 
+        Category foundedObject = getOne(id);
+        Category modifications = (Category) information;
+
+        String rqt = "UPDATE categories SET name_category=? WHERE id=?";
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            prstmt.setString(1, modifications.getName() != null ? modifications.getName() : foundedObject.getName());
+            prstmt.setString(2, id);
+
+            prstmt.executeUpdate();
+
+            System.out.println("Modification réussie !");
+        } catch (SQLException e) {
+            System.out.println("Échec de la modification : " + e.getMessage());
+            System.exit(45);
+        }
     }
 
     @Override

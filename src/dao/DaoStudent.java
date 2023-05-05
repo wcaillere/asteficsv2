@@ -103,6 +103,26 @@ public class DaoStudent implements IDao<Student> {
     @Override
     public void modifyOne(String id, Object information) {
 
+        Student foundedObject = getOne(id);
+        Student modifications = (Student) information;
+
+        String rqt = "UPDATE students SET firstName=?, lastName=? WHERE id=?";
+        PreparedStatement prstmt = null;
+
+        try {
+            prstmt = this.cnx.prepareStatement(rqt);
+
+            prstmt.setString(1, modifications.getFirstName() != null ? modifications.getFirstName() : foundedObject.getFirstName());
+            prstmt.setString(2, modifications.getLastName() != null ? modifications.getLastName() : foundedObject.getLastName());
+            prstmt.setString(3, id);
+
+            prstmt.executeUpdate();
+
+            System.out.println("Modification réussie !");
+        } catch (SQLException e) {
+            System.out.println("Échec de la modification : " + e.getMessage());
+            System.exit(45);
+        }
     }
 
     @Override

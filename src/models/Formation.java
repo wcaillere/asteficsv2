@@ -15,7 +15,7 @@ public class Formation implements IModel<Formation> {
     private int nbDays;
     private float price;
     private Level level;
-    private boolean isOnline;
+    private Boolean isOnline;
     private String program;
     private Category category;
     private Teacher teacher;
@@ -85,11 +85,11 @@ public class Formation implements IModel<Formation> {
         this.level = level;
     }
 
-    public boolean isOnline() {
+    public Boolean isOnline() {
         return isOnline;
     }
 
-    public void setOnline(boolean online) {
+    public void setOnline(Boolean online) {
         isOnline = online;
     }
 
@@ -214,11 +214,120 @@ public class Formation implements IModel<Formation> {
 
     @Override
     public Formation verifyModificationInput() {
-        return null;
+        Scanner clavier = new Scanner(System.in);
+
+        System.out.println("Nom : ");
+        String saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setName(saisie);
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+            System.out.println("Date de type (AAAA-MM-JJ) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (saisie.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
+            try {
+                SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+                setBegin_at(f.parse(saisie));
+            } catch (Exception e) {
+                System.out.println("Erreur création Date " + e.getMessage());
+                System.exit(105);
+            }
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+")) {
+            System.out.println("Nombre de jours : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (saisie.matches("[0-9]+")) {
+            setNbDays(Integer.parseInt(saisie));
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+[.]?[0-9]{0,2}")) {
+            System.out.println("Prix (en euros) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (saisie.matches("[0-9]+[.]?[0-9]{0,2}")) {
+            setPrice(Float.parseFloat(saisie));
+        }
+
+        saisie = "";
+        while (!saisie.matches("[1-3]")) {
+            System.out.println("Id de la difficulté (1-basique, 2-intermédiaire, 3-difficile) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (saisie.matches("[1-3]")) {
+            setLevel(new Level(Integer.parseInt(saisie)));
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-1]")) {
+            System.out.println("la formation est-elle en ligne ? (0-non, 1-oui) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (saisie.matches("[0-1]")) {
+            setOnline(!saisie.equals("0"));
+        }
+
+        saisie = "";
+        System.out.println("Programme : ");
+        saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setProgram(saisie);
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+") || new DaoCategory().getOne(saisie) == null) {
+            System.out.println("Id de la catégorie (Entrez un id existant dans la base) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (!saisie.trim().equals("")) {
+            setCategory(new Category(Integer.parseInt(saisie)));
+        }
+
+        saisie = "";
+        while (!saisie.matches("[0-9]+") || new DaoTeacher().getOne(saisie) == null) {
+            System.out.println("Id du formateur (Entrez un id existant dans la base) : ");
+            saisie = clavier.nextLine();
+            if (saisie.equals("&")) return null;
+            if (saisie.trim().equals("")) {
+                break;
+            }
+        }
+        if (!saisie.trim().equals("")) {
+            setTeacher(new Teacher(Integer.parseInt(saisie)));
+        }
+
+        return this;
     }
 }
-
-/*
-        this.category = category;
-        this.teacher = teacher;
- */

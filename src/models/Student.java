@@ -52,7 +52,7 @@ public class Student implements IModel<Student> {
 
         String saisie = "";
         while (saisie.matches("^$")) {
-            System.out.println("Prénom (obligatoire) : ");
+            System.out.println("Prénom : ");
             saisie = clavier.nextLine();
             if (saisie.equals("&")) return null;
         }
@@ -60,7 +60,7 @@ public class Student implements IModel<Student> {
 
         saisie = "";
         while (saisie.matches("^$")) {
-            System.out.println("Nom de famille (obligatoire) : ");
+            System.out.println("Nom de famille : ");
             saisie = clavier.nextLine();
             if (saisie.equals("&")) return null;
         }
@@ -71,6 +71,22 @@ public class Student implements IModel<Student> {
 
     @Override
     public Student verifyModificationInput() {
-        return null;
+        Scanner clavier = new Scanner(System.in);
+
+        System.out.println("Prénom : ");
+        String saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setFirstName(saisie);
+        }
+
+        System.out.println("Nom de famille : ");
+        saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setLastName(saisie);
+        }
+
+        return this;
     }
 }

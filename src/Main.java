@@ -109,7 +109,7 @@ public class Main {
                 }
                 // Création d'un élément
                 case "3" -> {
-                    System.out.println("\nRemplissez tous ces champs obligatoires (Entrez '&' à tout moment pour sortir de la saisie)");
+                    System.out.println("\nRemplissez tous ces champs obligatoires (Entrez '&' pour annuler la création)");
                     Class<?> clazz = classTb.get(chosenMenu);
                     try {
                         IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();
@@ -134,7 +134,7 @@ public class Main {
                     if (foundedObject == null) {
                         System.out.println("Modification annulée : l'élément d'id " + saisie + " n'existe pas");
                     } else {
-                        System.out.println("\nRemplissez les champs à modifier (entrez '&' pour quitter à tout moment)");
+                        System.out.println("\nRemplissez les champs à modifier (entrez '&' pour annuler la modification)");
                         Class<?> clazz = classTb.get(chosenMenu);
                         try {
                             IModel<?> entity = (IModel<?>) clazz.getDeclaredConstructor().newInstance();

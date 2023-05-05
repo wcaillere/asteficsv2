@@ -58,6 +58,15 @@ public class Category implements IModel<Category> {
 
     @Override
     public Category verifyModificationInput() {
-        return null;
+        Scanner clavier = new Scanner(System.in);
+
+        System.out.println("Nom de la catégorie : ");
+        String saisie = clavier.nextLine();
+        if (saisie.equals("&")) return null;
+        if (!saisie.trim().equals("")) {
+            setName(saisie);
+        }
+
+        return this;
     }
 }
